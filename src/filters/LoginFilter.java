@@ -42,13 +42,13 @@ public class LoginFilter implements Filter {
         String context_path = ((HttpServletRequest)request).getContextPath();
         String servlet_path = ((HttpServletRequest)request).getServletPath();
 
-        if(!servlet_path.matches("/css.*")) {    // CSSフォルダ内は認証処理から除外する
+        if(!servlet_path.matches("/css.*")) {       // CSSフォルダ内は認証処理から除外する
             HttpSession session = ((HttpServletRequest)request).getSession();
 
             // セッションスコープに保存された従業員（ログインユーザ）情報を取得
             Employee e = (Employee)session.getAttribute("login_employee");
 
-            if(!servlet_path.equals("/login")) {    // ログイン画面以外について
+            if(!servlet_path.equals("/login")) {        // ログイン画面以外について
                 // ログアウトしている状態であれば
                 // ログイン画面にリダイレクト
                 if(e == null) {
@@ -61,7 +61,7 @@ public class LoginFilter implements Filter {
                     ((HttpServletResponse)response).sendRedirect(context_path + "/");
                     return;
                 }
-            } else {
+            } else {                                    // ログイン画面について
                 // ログインしているのにログイン画面を表示させようとした場合は
                 // システムのトップページにリダイレクト
                 if(e != null) {
@@ -70,6 +70,7 @@ public class LoginFilter implements Filter {
                 }
             }
         }
+
         chain.doFilter(request, response);
     }
 
